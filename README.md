@@ -31,83 +31,106 @@ Users should be able to:
 
 ### Screenshot
 
-![](./screenshot.jpg)
-
-Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
-
-Alternatively, you can use a tool like [FireShot](https://getfireshot.com/) to take the screenshot. FireShot has a free option, so you don't need to purchase it. 
-
-Then crop/optimize/edit your image however you like, add it to your project, and update the file path in the image above.
-
-**Note: Delete this note and the paragraphs above when you add your screenshot. If you prefer not to add a screenshot, feel free to remove this entire section.**
+![Desktop-Design](./screenshots/desktop-design.jfif)
+![Active-States](./screenshots/active-state.jfif)
+![Complete-State-Desktop](./screenshots/complete-state-desktop.jfif)
+![Mobile-Design](./screenshots/desktop-design.jfif)
+![Complete-State-Mobile](./screenshots/mobile-complete.JPG)
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
+- Solution URL: [Github solution URL here](https://github.com/cindyeme/interactive-card-details-form)
 - Live Site URL: [Add live site URL here](https://your-live-site-url.com)
 
 ## My process
 
 ### Built with
 
-- Semantic HTML5 markup
+- JSX
 - CSS custom properties
 - Flexbox
-- CSS Grid
 - Mobile-first workflow
-- [React](https://reactjs.org/) - JS library
+- [TailwindCSS](https://tailwindcss.com/) - CSS framework
 - [Next.js](https://nextjs.org/) - React framework
-- [Styled Components](https://styled-components.com/) - For styles
-
-**Note: These are just examples. Delete this note and replace the list above with your own choices**
+- [Yup](https://github.com/jquense/yup) - For validations
 
 ### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+While working on this, I learned how to write logic for form validation, handle the form input changes when it got to splitting the card numbers into four separate digits, and how to find solutions and fix bugs as I encounter them.
 
-To see how you can add code snippets, see below:
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
+See some code snippet below below:
+
 ```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
+ const handleInputChange = (e) => {
+    if (e.target.name === "number" && e.target.value) {
+      e.target.value = e.target.value
+        .replace(/\s/g, "")
+        .replace(/(.{4})/g, "$1 ")
+        .trim()
+        .slice(0, 19);
+    }
+
+    if (e.target.name === "expiryMonth" || e.target.name === "expiryYear") {
+      e.target.value = e.target.value
+        .toString()
+        .replace(/[^0-9]/g, "")
+        .substring(0, 2);
+      if (e.target.name === "expiryMonth" && e.target.value > 12)
+        e.target.value = "12";
+    }
+
+    if (e.target.name === "cvc") {
+      e.target.value = e.target.value.substring(0, 3);
+    }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+```js
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const isFormValid = await validationSchema.isValid(formData, {
+    abortEarly: false,
+  });
 
-**Note: Delete this note and the content within this section and replace with your own learnings.**
+  if (isFormValid) {
+    setValidate(true);
+    setErrors({
+      name: "",
+      number: "",
+      expiryMonth: "",
+      expiryYear: "",
+      cvc: "",
+    });
+  } else {
+    validationSchema
+      .validate(formData, { abortEarly: false })
+      .catch((error) => {
+        const errors = error.inner.reduce((acc, error) => {
+          return {
+            ...acc,
+            [error.path]: error.message,
+          };
+        }, {});
+        setErrors({
+          name: errors.name,
+          number: errors.number,
+          expiryMonth: errors.expiryMonth,
+          expiryYear: errors.expiryYear,
+          cvc: errors.cvc,
+        });
+      });
+    }
+  };
+```
 
 ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
-
-**Note: Delete this note and the content within this section and replace with your own plans for continued development.**
-
-### Useful resources
-
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
-
-**Note: Delete this note and replace the list above with resources that helped you during the challenge. These could come in handy for anyone viewing your solution or for yourself when you look back on this project in the future.**
+I would be using more of React.js and Next.js frameworks in the coming challenges and would enjoy implementing logics.
 
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
-
-**Note: Delete this note and add/remove/edit lines above based on what links you'd like to share.**
-
-## Acknowledgments
-
-This is where you can give a hat tip to anyone who helped you out on this project. Perhaps you worked in a team or got some inspiration from someone else's solution. This is the perfect place to give them some credit.
-
-**Note: Delete this note and edit this section's content as necessary. If you completed this challenge by yourself, feel free to delete this section entirely.**
+- Website - [Emerenini Cynthia Ngozi](emereninicynthiangozi.herokuapp.com)
+- Frontend Mentor - [@cindyeme](https://www.frontendmentor.io/profile/cindyeme)
+- Twitter - [@CynthiaENgozi1](https://www.twitter.com/cynthiaengozi1)

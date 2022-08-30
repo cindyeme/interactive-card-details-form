@@ -115,7 +115,6 @@ export default function Home() {
             expiryYear: errors.expiryYear,
             cvc: errors.cvc,
           });
-          // console.log(errors, ">>>", errors);
         });
     }
   };
