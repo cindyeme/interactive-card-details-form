@@ -11,6 +11,46 @@ body {
   font-family: "Space Grotesk", serif;
 }
 
+body::after {
+	content: "";
+	background-image: url("../images/bg-main-desktop.png");
+	background-size: cover;
+	width: 33.5%;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -100;
+	transition: width 0.35s ease-in-out, height 0.35s ease-in-out;
+}
+
+.body-slider::after {
+	width: 100%;
+}
+
+.App {
+	display: flex;
+	min-height: 100vh;
+	align-items: center;
+	justify-content: center;
+}
+
+@media screen and (max-width: 750px) {
+	.App {
+		flex-direction: column;
+	}
+
+	body::after {
+		background-image: url("../images/bg-main-mobile.png");
+		height: 40%;
+		width: 100%;
+	}
+
+	.body-slider::after {
+		height: 100%;
+	}
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -30,16 +70,6 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
-
-/* @media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
-} */
 
 .attribution {
   font-size: 11px;
