@@ -31,7 +31,7 @@ Users should be able to:
 
 ### Screenshot
 
-![Desktop-Design](./screenshots/desktop-design.jfif)
+![Desktop-Design](./screenshots/desktop-details.jfif)
 ![Active-States](./screenshots/active-state.jfif)
 ![Complete-State-Desktop](./screenshots/complete-state-desktop.jfif)
 ![Mobile-Design](./screenshots/desktop-design.jfif)
